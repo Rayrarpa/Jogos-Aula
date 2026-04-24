@@ -4,25 +4,37 @@ using UnityEngine;
 
 public class Movement : MonoBehaviour
 {
-    // Start is called before the first frame update
     public float velocity = 1f;
+    public float rotationSpeed = 100f;
+
     void Start()
     {
         
     }
 
-    // Update is called once per frame
     void Update()
     {
         float horizontalInput = Input.GetAxis("Horizontal");
         float verticalInput = Input.GetAxis("Vertical");
-        this.transform.position += new Vector3(horizontalInput*velocity,0,0);
-        this.transform.position += new Vector3(0,verticalInput*velocity,0);
-        if(this.transform.position.x>10)
+
+        // Movimento
+        transform.position += new Vector3(horizontalInput * velocity, 0, 0);
+        transform.position += new Vector3(0, verticalInput * velocity, 0);
+
+        // Limite no eixo X
+        if (transform.position.x > 10)
         {
-            this.transform.position = new Vector3 (10, this.transform.position.y, this.transform.position.z);
-        } else if (this.transform.position.x<-10) {
-            this.transform.position = new Vector3 (-10, this.transform.position.y, this.transform.position.z);
+            transform.position = new Vector3(10, transform.position.y, transform.position.z);
+        }
+        else if (transform.position.x < -10)
+        {
+            transform.position = new Vector3(-10, transform.position.y, transform.position.z);
+        }
+
+        // Rotação vertical (eixo X) ao segurar espaço
+        if (Input.GetKey(KeyCode.Space))
+        {
+            transform.Rotate(rotationSpeed * Time.deltaTime, 0, 0);
         }
     }
 }
